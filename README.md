@@ -110,7 +110,7 @@ class Classifier(nn.Module):
         
         # convolution
         self.convl11 = nn.Sequential(nn.Dropout(params.dropout_11),
-                        nn.Conv2d(params.n_channels, params.num_filters_11, kernel_size=params.kernel_size_11, stride=params.stride_11),
+                        nn.Conv2d(params.n_channels, params.num_filters_11, kernel_size=params.kerne[l_size_11, stride=params.stride_11),
                         nn.BatchNorm2d(params.num_filters_11),
                         nn.ReLU(),
                         nn.MaxPool2d(kernel_size=params.maxpool_size11, stride=params.maxpool_stride11))
@@ -161,7 +161,7 @@ class Classifier(nn.Module):
         return posenc.float()
 ```
 
-Notice the positional encodings, a very simple X & Y dimension added to all MEL-spectrograms automaticlaly within the forward pass of the DrumClassifier. See function `make_pos_encodings` in `code/pytorch_utils` for more details.
+Notice the positional encodings, a very simple X & Y vector added to all MEL-spectrograms automaticlaly within the forward pass of the DrumClassifier. See function `make_pos_encodings` in `code/pytorch_utils` for more details.
 
 Default parameters are:
 
@@ -190,7 +190,7 @@ params_dict = {'n_channels':3, # for MEL-spectrogram and X & Y positional-encodi
 ```
 
 # What are the 30 percussion classes?
-I used 30 samples motivated by:
+I used 30 instrument classes motivated by:
 - availability in my personal collection of audio-files from many different sources.
 - usefulness for industrial and cinematic music
 
@@ -228,7 +228,20 @@ I hope to expand these instruments in the future to include more tonal instrumen
 'rid': ride,
 'cym': cymbal crash
 ```
+
 # TRAINING (demo)
 To see how the model was trained, have a look at the dummy-training file `training_demo.py` in `demo_sound_files`. For property-rights reasons, I cannot make the training data available.
 
-TODO 
+
+
+TODO
+
+# Files
+
+```
+code/drumclassifier_utils.py	 # core classifier functionality 
+code/drumclassifier_constants.py # classifier constants
+code/pytorch_utils.py		 # pytorch mode syntax and classes
+code/drumkv1_utils.py		 # (optional) Drumkv1 drumkit XML-exportation
+code/drumkv1_constants.py	 # (optional) Drumkv1 drumkit constants
+```
