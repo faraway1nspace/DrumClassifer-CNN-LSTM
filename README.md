@@ -1,5 +1,7 @@
 # DrumClassifier CNN-LSTM (pytorch)
 
+Classify your percussion instruments using a CNN-LSTM model.
+
 This is a deep-learning solution to help organizing my drum-sample collection (audio-files like kicks, snares, cymbals, claps, high-hats, etc.). Searching for the perfect-sounding snare during music production really kills my creativity, so I build this application (and associated tools) to auto-build some custom drumkits.
 
 If you are interested in using this in your work/project, I am open to collaboration and development. My interests:
@@ -22,7 +24,7 @@ If you are interested in using this in your work/project, I am open to collabora
 - numpy
 
 ### Drumkits
-Part of the utility is to auto-organize drumkits in such a way that facilitates sensible exploration of kits. For example, the `drumkv1_utils` functionality will export kits with consistent midi-keys to instrument assignment (i.e., 36 is a snare is a snare is a snare, always). Therefore, swapping drumkits amoung different Ddrumkv1 files *doesn't* result in a scrambling of the relationship between midi-keys and the instruments. For example check out these three drumkits built with the Classifier and exported-to-drumkv1.
+One use-case is to auto-organize drumkits in such a way that facilitates a consistent relationship between midi-keys and instruments (i.e., 36 is a snare is a snare is a snare, always). Tthe `drumkv1_utils` functionality will classify drum-samples and arrange them according to a prescribed midi-keys layout (the drumkv1 format). Therefore, while I am exploring drumkits during music production, I can swap among drumkits without scrambling the relationship between midi-keys and the instruments. For example check out these three drumkits built with the Classifier and exported-to-drumkv1.
 
 *TODO INSERT AUDIO FILES*
 
