@@ -32,24 +32,20 @@ Let's classify the four demo files in the `demo_sound_files` directory (kick-dru
 ./demo_sound_files/snr/snare03.ogg
 ```
 
-cmd usage, with input as a list of paths-to-audiofiles (`-l` argument):
+*cmd usage, with input as a list of paths-to-audiofiles (`-l` argument):*
 ```
 python3.6 drumclassifier.py -l demo_sound_files/kick/kick01.ogg,demo_sound_files/hhc/hihat_closed02.ogg,demo_sound_files/hho/hihat_opened01.ogg,demo_sound_files/snr/snare03.ogg
 ```
 output: `{'demo_sound_files/kick/kick01.ogg': 'kick', 'demo_sound_files/hhc/hihat_closed02.ogg': 'hhc', 'demo_sound_files/hho/hihat_opened01.ogg': 'hho', 'demo_sound_files/snr/snare03.ogg': 'snr'}`
 The output returns a dictionary with keys being the path/to/audiofile, and the values being the class of percussive instrument.
 
-*cmd usage (input is a list of audiofiles `-l` argument):*
-```
-python3.6 drumclassifier.py -l demo_sound_files/kick/kick01.ogg,demo_sound_files/hhc/hihat_closed02.ogg,demo_sound_files/hho/hihat_opened01.ogg,demo_sound_files/snr/snare03.ogg
-```
-
+We can also classify a whole directory of files, with the easier command...
 *cmd usage (input is a directory `-d` argument, classifies all files in directory):*
 ```
 python3.6 drumclassifier.py -d "/path/to/directory/" # notice the quotes around path
 ```
 
-We can also get the full probability vectors and save them to a local CSV for further processing/organizing. Here, we use the `-t type_output` argument and set to `prob` (probabilities), as well as setting the `-o` output_file argument to `/tmp/classification_results.csv`
+We can get the full probability vectors and save them to a local CSV for further processing/organizing. Here, we use the `-t type_output` argument and set to `prob` (probabilities), as well as setting the `-o` output_file argument to `/tmp/classification_results.csv`
 
 *cmd usage (export to .csv)*:
 ```
