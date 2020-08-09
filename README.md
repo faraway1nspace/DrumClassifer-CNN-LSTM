@@ -26,7 +26,9 @@ If you are interested in using this in your work/project, I am open to collabora
 ### Drumkits
 One use-case is to auto-organize drumkits in such a way that facilitates a consistent relationship between midi-keys and instruments (i.e., 36 is a snare is a snare is a snare, always). Tthe `drumkv1_utils` functionality will classify drum-samples and arrange them according to a prescribed midi-keys layout (the drumkv1 format). Therefore, while I am exploring drumkits during music production, I can swap among drumkits without scrambling the relationship between midi-keys and the instruments. For example check out these three drumkits built with the Classifier and exported-to-drumkv1.
 
-*TODO INSERT AUDIO FILES*
+*play [Cheetah MD16 Drumkit auto-arranged](https://raw.githubusercontent.com/faraway1nspace/DrumClassifer-CNN-LSTM/master/demo_sound_files/riffs/drum-roll2_berklee.mp3)*
+*compare to [random Berklee industrial noises](https://raw.githubusercontent.com/faraway1nspace/DrumClassifer-CNN-LSTM/master/demo_sound_files/riffs/drumroll1.mp3)*
+What is fun about the later, is that random industrial noises have been *forced* into an arrange that is vaguely musical, reminiscient of a drumkit. What a fun way to explore strange new sounds!
 
 
 # Example usage
