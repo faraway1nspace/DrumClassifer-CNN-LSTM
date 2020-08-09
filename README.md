@@ -21,6 +21,12 @@ If you are interested in using this in your work/project, I am open to collabora
 - pytorch
 - numpy
 
+### Drumkits
+Part of the utility is to auto-organize drumkits in such a way that facilitates sensible exploration of kits. For example, the `drumkv1_utils` functionality will export kits with consistent midi-keys to instrument assignment (i.e., 36 is a snare is a snare is a snare, always). Therefore, swapping drumkits amoung different Ddrumkv1 files *doesn't* result in a scrambling of the relationship between midi-keys and the instruments. For example check out these three drumkits built with the Classifier and exported-to-drumkv1.
+
+*TODO INSERT AUDIO FILES*
+
+
 # Example usage
 ### command line examples
 
