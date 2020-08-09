@@ -39,18 +39,19 @@ python3.6 drumclassifier.py -l demo_sound_files/kick/kick01.ogg,demo_sound_files
 output: `{'demo_sound_files/kick/kick01.ogg': 'kick', 'demo_sound_files/hhc/hihat_closed02.ogg': 'hhc', 'demo_sound_files/hho/hihat_opened01.ogg': 'hho', 'demo_sound_files/snr/snare03.ogg': 'snr'}`
 The output returns a dictionary with keys being the path/to/audiofile, and the values being the class of percussive instrument.
 
-cmd usage, with input as a list of paths-to-audiofiles (`-l` argument):
+*cmd usage (input is a list of audiofiles `-l` argument):*
 ```
 python3.6 drumclassifier.py -l demo_sound_files/kick/kick01.ogg,demo_sound_files/hhc/hihat_closed02.ogg,demo_sound_files/hho/hihat_opened01.ogg,demo_sound_files/snr/snare03.ogg
 ```
 
-Alternatively, you can classify all files within a directory using the `-d` argument 
+*cmd usage (input is a directory `-d` argument, classifies all files in directory):*
 ```
 python3.6 drumclassifier.py -d "/path/to/directory/" # notice the quotes around path
 ```
 
-
 We can also get the full probability vectors and save them to a local CSV for further processing/organizing. Here, we use the `-t type_output` argument and set to `prob` (probabilities), as well as setting the `-o` output_file argument to `/tmp/classification_results.csv`
+
+*cmd usage (export to .csv)*:
 ```
 python3.6 drumclassifier.py -l demo_sound_files/kick/kick01.ogg,demo_sound_files/hhc/hihat_closed02.ogg,demo_sound_files/hho/hihat_opened01.ogg,demo_sound_files/snr/snare03.ogg -o /tmp/classification_results.csv -t prob
 ```
@@ -225,3 +226,7 @@ I hope to expand these instruments in the future to include more tonal instrumen
 'rid': ride,
 'cym': cymbal crash
 ```
+# TRAINING (demo)
+To see how the model was trained, have a look at the dummy-training file `training_demo.py` in `demo_sound_files`. For property-rights reasons, I cannot make the training data available.
+
+TODO 
