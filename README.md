@@ -1,4 +1,4 @@
-# DrumClassifier with an CNN-LSTM (pytorch)
+# DrumClassifier CNN-LSTM (pytorch)
 
 This is a deep-learning solution to help organizing my drum-sample collection (audio-files like kicks, snares, cymbals, claps, high-hats, etc.). Searching for the perfect-sounding snare during music production really kills my creativity, so I build this application (and associated tools) to auto-build some custom drumkits.
 
@@ -22,8 +22,74 @@ If you are interested in using this in your work/project, I am open to collabora
 - numpy
 
 # Example usage
-```foobar = dooo```
+### command line examples
 
+Let's classify the four demo files in the `demo_sound_files` directory (kick-drum, high-hat closed and open, and a snare
+```
+./demo_sound_files/kick/kick01.ogg
+./demo_sound_files/hhc/hihat_closed02.ogg
+./demo_sound_files/hho/hihat_opened01.ogg
+./demo_sound_files/snr/snare03.ogg
+```
+
+cmd usage, with input as a list of paths-to-audiofiles (`-l` argument):
+```
+python3.6 drumclassifier.py -l demo_sound_files/kick/kick01.ogg,demo_sound_files/hhc/hihat_closed02.ogg,demo_sound_files/hho/hihat_opened01.ogg,demo_sound_files/snr/snare03.ogg
+```
+output: `{'demo_sound_files/kick/kick01.ogg': 'kick', 'demo_sound_files/hhc/hihat_closed02.ogg': 'hhc', 'demo_sound_files/hho/hihat_opened01.ogg': 'hho', 'demo_sound_files/snr/snare03.ogg': 'snr'}`
+The output returns a dictionary with keys being the path/to/audiofile, and the values being the class of percussive instrument.
+
+cmd usage, with input as a list of paths-to-audiofiles (`-l` argument):
+```
+python3.6 drumclassifier.py -l demo_sound_files/kick/kick01.ogg,demo_sound_files/hhc/hihat_closed02.ogg,demo_sound_files/hho/hihat_opened01.ogg,demo_sound_files/snr/snare03.ogg
+```
+
+Alternatively, you can classify all files within a directory using the `-d` argument 
+```
+python3.6 drumclassifier.py -d "/path/to/directory/" # notice the quotes around path
+```
+
+
+We can also get the full probability vectors and save them to a local CSV for further processing/organizing. Here, we use the `-t type_output` argument and set to `prob` (probabilities), as well as setting the `-o` output_file argument to `/tmp/classification_results.csv`
+```
+python3.6 drumclassifier.py -l demo_sound_files/kick/kick01.ogg,demo_sound_files/hhc/hihat_closed02.ogg,demo_sound_files/hho/hihat_opened01.ogg,demo_sound_files/snr/snare03.ogg -o /tmp/classification_results.csv -t prob
+```
+This creates a CSV file, where each row is an audio-file, and each column is a instrument-class, each element is the probability that the audio-file belongs to that class
+
+## Python usage
+
+For more control, you can play with the methods in an interactive python session
+
+```python
+from __future__ import print_function
+import os
+import sys
+import librosa
+import numpy as np
+import librosa.display
+import re
+import random
+import torch
+import torch.nn as nn
+from torch.autograd import Variable
+sys.path.append("code/")
+
+# load main classes (pytorch model and classifier objections)
+# pytorch CNN-LSTM model        
+from pytorch_utils import DataLoader, make_pos_encodings, HyperParams, Classifier
+    
+# constants 
+from drumclassifier_constants import INSTRUMENT_NAMES
+    
+# main code
+from drumclassifier_utils import transform, DrumClassifier
+    
+# make main Classification object
+drumcl = DrumClassifier(path_to_model= "models/mel_cnn_models/mel_cnn_model_high_v2.model")
+
+# classify all audio files within a directory, return dictionary of probabilities
+results = drumcl.predict_proba_directory("path/to/files/", format = "prob")
+```
 
 # Model
 
@@ -96,7 +162,7 @@ Notice the positional encodings, a very simple X & Y dimension added to all MEL-
 
 Default parameters are:
 
-```
+```python
 params_dict = {'n_channels':3, # for MEL-spectrogram and X & Y positional-encodings
                "dropout_11": 0.05,
                "num_filters_11": 64,
@@ -120,4 +186,42 @@ params_dict = {'n_channels':3, # for MEL-spectrogram and X & Y positional-encodi
                "outdim": 30}
 ```
 
+# What are the 30 percussion classes?
+I used 30 samples motivated by:
+- availability in my personal collection of audio-files from many different sources.
+- usefulness for industrial and cinematic music
 
+I hope to expand these instruments in the future to include more tonal instruments. But in the meantime this is *CONDITIONAL* on the instrument being a percussive instrument.
+
+```
+'kick': kick drum
+'tomf': floor tom
+'thd': thud, deep distorted explosion
+'tom': mid/low/high tom
+'bass': tonal bass note,
+'snr': snare drum
+'tab': tabla
+'taik': taiko drum
+'cong': congo
+'cah': industrial distorted snare/clap (think nine-inch nails snare)
+'rim': rim-shot
+'fx': other strange fx's
+'wood': woodblocks
+'ped': hihat peddle
+'clav': clav,
+'stick': snare-sticks or just sticks
+'tim': timpani
+'cui': cuica
+'tri': triangle
+'vib': vibraphone
+'met': metal percussive sound
+'hhc': hi-hat closed
+'clp': clap,
+'shk': shaker,
+'gui': guiro or guira,
+'whis': whistle,
+'cow': cowbell,
+'hho': high-hat open,
+'rid': ride,
+'cym': cymbal crash
+```
