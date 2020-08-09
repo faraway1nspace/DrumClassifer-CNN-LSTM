@@ -8,7 +8,7 @@ If you are interested in using this in your work/project, I am open to collabora
 
 ### Purpose:
 - classify drum-samples (.wav, flac, ogg, aiff) into 30 percussion classes
-- (optional) auto-build drumkits based on predicted classes and export to DrumKV1 kit (a lv2 plugin)
+- (optional) auto-build drumkits based on predicted classes and export to [DrumKV1 kit](https://drumkv1.sourceforge.io/) (a lv2 plugin)
 - (future) explore audio-samples according to latent dimensions
 
 ### Method:
@@ -34,7 +34,7 @@ The core of the classifier is CNN-LSTM.
 ### Model in pytorch:
 see the file `models/mel_cnn_models/mel_cnn_model_high_v2.model`
 
-```
+```python
 class Classifier(nn.Module):   
     def __init__(self,params):
         super(Classifier, self).__init__()
