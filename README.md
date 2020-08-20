@@ -24,13 +24,13 @@ If you are interested in using this in your work/project, I am open to collabora
 - numpy
 
 ### Drumkits
-One use-case is to auto-organize drumkits in such a way that facilitates a consistent relationship between midi-keys and instruments (i.e., 36 is a snare is a snare is a snare, always). Tthe `drumkv1_utils` functionality will classify drum-samples and arrange them according to a prescribed midi-keys layout (the drumkv1 format). Therefore, while I am exploring drumkits during music production, I can swap among drumkits without scrambling the relationship between midi-keys and the instruments. For example check out these three drumkits built with the Classifier and exported-to-drumkv1.
+One use-case is to auto-organize drumkits in such a way that facilitates a consistent relationship between midi-keys and instruments (i.e., 36 is a snare is a snare is a snare, always). The `drumkv1_utils` functionality will classify drum-samples and arrange them according to a prescribed midi-keys layout (the drumkv1 format). Therefore, while I am exploring drumkits during music production, I can swap among drumkits without scrambling the relationship between midi-keys and the instruments. For example check out these three drumkits built with the Classifier and exported-to-drumkv1.
 
 *play [Cheetah MD16 Drumkit auto-arranged](https://raw.githubusercontent.com/faraway1nspace/DrumClassifer-CNN-LSTM/master/demo_sound_files/riffs/drum-roll2_berklee.mp3)*
 
 *compare to [random Berklee industrial noises](https://raw.githubusercontent.com/faraway1nspace/DrumClassifer-CNN-LSTM/master/demo_sound_files/riffs/drumroll1.mp3)*
 
-What is fun about the latter, is that random industrial noises have been *forced* into an arrange that is vaguely musical, reminiscient of a drumkit. What a fun way to explore strange new sounds!
+The latter consists of random industrial noises have been *forced* into an arrangement that is reminiscient of a conventional drumkit. I find this a fun way to creatively assemble stranges noises into coherent drumkits and inspire new creations.
 
 
 # Example usage
@@ -241,6 +241,58 @@ To see how the model was trained, have a look at the dummy-training file `traini
 
 
 TODO
+
+# DEMO: AUTO-BUILD DRUMKITS
+
+Some auxiliary functions are included that build drumkits in the Drumkv1 (I am also considering exportin to Hydrogen drumkits. The class `ClassiferPlusKv1Exporter` has functions to import samples, classify into instruments, and then assign instruments to specificy midi-keys. The arrangment is specified via a list that maps (midi)keys to instruments
+python
+```
+MY_ASSIGNMENT = {'key_assignment': {'kick': 36, # assigns kick to midi-36
+                                    'snr': 38, # snare to 38
+                                    'hhc': 45, # high-hat closed to 45
+				    ...
+                                    'hho': 47}}
+```
+
+The functions `classify_and_make_kit` builds a single drumkit, while `classifies_and_make_kits` works in batch-mode, especially useful if you have lots of directories that each represent separate potential kits
+
+
+```python
+import sys
+sys.path.append("code/")
+from pytorch_utils import * # for the pytorch CNN-LSTM model
+from drumclassifier_constants import * # constants
+from drumclassifier_utils import * # make code
+# load the drumkv1 classes and function
+from drumkv1_constants import * 
+from drumkv1_utils import * 
+
+# make a configuration: maps midi keys to instruments (snr, kick, hihat, etc)
+# (in the demo_sounds_files, we have a kick, hhc,hho and snare)
+                           
+MY_ASSIGNMENT = {'key_assignment': {'kick': 36, # assigns kick to midi-36
+                                    'snr': 38, # snare to 38
+                                    'hhc': 45, # high-hat closed to 45
+                                    'hho': 47}} # high-hat open to
+
+# in this demo, we only have the four instruments, but a fuller in arrangment can be seen in drumkv1_constants.DEFAULT_ASSIGNMENT
+
+# intialize the XML-DRUMKV1 exporter
+kit_maker = ClassiferPlusKv1Exporter(path_to_model = "models/mel_cnn_models/mel_cnn_model_high_v2.model", assignment_default = MY_ASSIGNMENT, verbose = 1)
+
+# make a list of samplesinstruments for assignment
+path_to_samples = ["demo_sound_files/kick/kick01.ogg","demo_sound_files/hhc/hihat_closed02.ogg","demo_sound_files/hho/hihat_opened01.ogg","demo_sound_files/snr/snare03.ogg"]
+
+# classify and export to drumkv1 file
+kit_maker.classify_and_make_kit(path_to_kit = "/tmp/my_first_drumkit.drumkv1", # exported kit
+                                samples = path_to_samples) # list of samples
+
+# if you want to auto-make many kits, using samples grouped into directories,
+# ... then supply a list of directories to function 'classifies_and_makes_kits'
+kit_maker.classifies_and_make_kits(path_to_kits = "export/path/to/kits/", # exported kit
+                                directories = ["path/to/samples/", "path/to/samples2/"])
+
+```
 
 # Files
 
